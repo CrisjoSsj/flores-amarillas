@@ -246,9 +246,11 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%) scale(0.8); 
-            z-index: 2; 
+            z-index: 10; 
+            visibility: visible;
+            opacity: 1;
         }
-        .flower { position: absolute; bottom: 0; transform-origin: bottom center; z-index: 50; will-change: transform; }
+        .flower { position: absolute; bottom: 0; transform-origin: bottom center; z-index: 50; will-change: transform; visibility: visible; opacity: 1; }
         .flower--1 { animation: moving-flower-1 4s linear infinite; }
         .flower--1 .flower__line { height: 70vmin; animation-delay: 0.3s; }
         .flower--1 .flower__line__leaf--1 { animation: blooming-leaf-right var(--fl-speed) 1.6s backwards; }
@@ -506,6 +508,20 @@
         
         /* === RESPONSIVE DESIGN === */
         
+        /* Reglas generales para móviles */
+        @media (max-width: 768px) {
+            .flowers {
+                visibility: visible !important;
+                opacity: 1 !important;
+                z-index: 10 !important;
+            }
+            
+            .flower {
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+        }
+
         /* Tablets y pantallas medianas */
         @media (max-width: 1024px) {
             .love-title {
@@ -552,8 +568,11 @@
             }
             
             .flowers {
-                transform: translateX(-50%) scale(0.5);
+                transform: translateX(-50%) scale(0.7);
                 bottom: 0;
+                position: absolute;
+                left: 50%;
+                z-index: 2;
             }
             
             .poem-card {
@@ -599,10 +618,16 @@
             
             .flowers {
                 position: relative;
-                transform: scale(0.6);
+                transform: scale(0.8);
                 bottom: 0;
                 order: 3;
-                margin: -20px 0;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 40vh;
+                width: 100%;
+                z-index: 2;
             }
             
             .poem-card {
@@ -645,8 +670,13 @@
             }
             
             .flowers {
-                transform: scale(0.5);
-                margin: -30px 0;
+                transform: scale(0.7);
+                margin: 0;
+                height: 35vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
             }
             
             .poem-card {
@@ -673,8 +703,13 @@
             }
             
             .flowers {
-                transform: scale(0.4);
-                margin: -40px 0;
+                transform: scale(0.6);
+                margin: 0;
+                height: 30vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
             }
             
             .poem-card {
