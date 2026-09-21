@@ -109,11 +109,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const showPlayIcon = () => { 
             if (playIcon) playIcon.style.display = 'block'; 
-            if (pauseIcon) pauseIcon.style.display = 'none'; 
+            if (pauseIcon) pauseIcon.style.display = 'none';
+            if (playPauseBtn) playPauseBtn.setAttribute('aria-label', 'Reproducir canción');
         };
         const showPauseIcon = () => { 
             if (playIcon) playIcon.style.display = 'none'; 
-            if (pauseIcon) pauseIcon.style.display = 'block'; 
+            if (pauseIcon) pauseIcon.style.display = 'block';
+            if (playPauseBtn) playPauseBtn.setAttribute('aria-label', 'Pausar canción');
         };
 
         const togglePlayPause = async () => {
@@ -154,8 +156,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         audioPlayer.addEventListener('timeupdate', () => {
             if (audioPlayer.duration && currentTimeEl && progressFill) {
-                progressFill.style.width = `${(audioPlayer.currentTime / audioPlayer.duration) * 100}%`;
+                const progressPercent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                progressFill.style.width = `${progressPercent}%`;
                 currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
+                if (progressBar) {
+                    progressBar.setAttribute('aria-valuenow', String(Math.round(progressPercent)));
+                }
             }
         });
             

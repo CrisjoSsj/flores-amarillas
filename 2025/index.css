@@ -28,18 +28,42 @@
             --light-seeds-1: #8b4513;
             --light-seeds-2: #654321;
             --light-seeds-shadow: rgba(139, 69, 19, 0.8);
+            --bouquet-scale: 0.46;
         }
         
-        body {
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            min-height: 100vh;
-            background-color: var(--dark-color);
+        html, body {
+            width: 100%;
+            height: 100%;
+            height: 100dvh;
             overflow: hidden;
-            perspective: 1000px;
+        }
+
+        body {
+            display: block;
+            background-color: var(--dark-color);
             position: relative;
             font-family: "Sour Gummy", system-ui, cursive;
+            overscroll-behavior: none;
+        }
+
+        .stage {
+            position: fixed;
+            inset: 0;
+            z-index: 30;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto minmax(0, 34vh);
+            justify-items: center;
+            align-content: start;
+            gap: 10px;
+            padding: max(10px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 0 max(12px, env(safe-area-inset-left));
+            pointer-events: none;
+        }
+
+        .stage > * {
+            pointer-events: auto;
         }
 
         body::before {
@@ -58,40 +82,38 @@
         }
 
         .love-title {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
+            width: min(100%, 12ch);
             color: #ffff00;
             font-family: 'Sour Gummy', cursive;
-            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-size: clamp(1.35rem, 6.4vw, 2.6rem);
             font-weight: bold;
+            line-height: 1.12;
+            text-wrap: balance;
             text-align: center;
             z-index: 100;
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0, 0 0 30px #ff0, 0 0 40px #ff0;
+            text-shadow: 0 0 8px #fff, 0 0 18px #ff0;
+            overflow-wrap: anywhere;
         }
 
         .music-player {
-            position: fixed;
-            top: 50%;
-            left: 5vw;
-            transform: translateY(-50%);
-            background: rgba(47, 27, 20, 0.8);
-            padding: 20px;
-            border-radius: 25px;
+            position: relative;
+            background: rgba(47, 27, 20, 0.88);
+            padding: 12px 16px;
+            border-radius: 20px;
             border: 2px solid rgba(255, 215, 0, 0.5);
             box-shadow: 
-                0 8px 32px rgba(255, 215, 0, .3),
+                0 8px 24px rgba(255, 215, 0, .28),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             z-index: 100;
             backdrop-filter: blur(15px);
-            min-width: 300px;
-            max-width: 320px;
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            width: min(100%, 360px);
+            min-width: 0;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .music-player:hover {
@@ -115,17 +137,24 @@
             font-size: 20px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
-            margin-bottom: 10px;
-            /* Mejoras para táctil */
+            margin-bottom: 0;
+            flex-shrink: 0;
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
             min-width: 44px;
             min-height: 44px;
         }
 
-        .play-pause-btn:hover {
-            background: rgb(255, 215, 0);
-            transform: scale(1.1);
+        .play-pause-btn:focus-visible {
+            outline: 3px solid #ffff00;
+            outline-offset: 3px;
+        }
+
+        @media (hover: hover) {
+            .play-pause-btn:hover {
+                background: rgb(255, 215, 0);
+                transform: scale(1.08);
+            }
         }
 
         .play-pause-btn svg {
@@ -242,11 +271,16 @@
         
         .night{display:none;}
         .flowers { 
-            position: absolute; 
+            position: fixed; 
             bottom: 0;
             left: 50%;
-            transform: translateX(-50%) scale(0.8); 
+            width: 0;
+            height: 0;
+            transform: scale(var(--bouquet-scale, 0.48)); 
+            transform-origin: bottom center;
+            perspective: 1000px;
             z-index: 10; 
+            pointer-events: none;
             visibility: visible;
             opacity: 1;
         }
@@ -421,8 +455,6 @@
             filter: blur(1.5vmin); 
             z-index: 100; 
         }
-        .special-text{display: none;}
-
         .grow-ans { animation: grow-ans 2s var(--d) backwards; }
         .growing-grass { animation: growing-grass-ans 1s 2s backwards; }
         .not-loaded * { animation-play-state: paused !important; }
@@ -506,237 +538,96 @@
         @keyframes moving-grass--9 { from, to { transform: scale(0.3) rotate(20deg) rotateY(90deg); } 50% { transform: scale(0.3) rotate(23deg) rotateY(95deg); } }
         @keyframes moving-grass--10 { from, to { transform: scale(0.35) rotate(-45deg) rotateY(-120deg); } 50% { transform: scale(0.35) rotate(-42deg) rotateY(-115deg); } }
         
-        /* === RESPONSIVE DESIGN === */
-        
-        /* Reglas generales para móviles */
-        @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: center;
-                padding: 10px;
-                overflow-y: auto;
-                overflow-x: hidden;
-                min-height: 100vh;
-                height: auto;
-                padding-bottom: 50px;
+        @media (min-width: 700px) {
+            :root {
+                --bouquet-scale: 0.58;
             }
-            
-            .flowers {
-                visibility: visible !important;
-                opacity: 1 !important;
-                z-index: 10 !important;
-                position: relative !important;
-                transform: scale(0.8) !important;
-                bottom: auto !important;
-                left: auto !important;
-                order: 2;
-                margin: 20px 0;
-                height: 40vh;
-                width: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+
+            .stage {
+                grid-template-columns: minmax(200px, 280px) minmax(0, 1fr) minmax(220px, 360px);
+                grid-template-rows: auto 1fr;
+                grid-template-areas:
+                    "title title title"
+                    "player bouquet poem";
+                justify-items: stretch;
+                column-gap: 16px;
+                row-gap: 12px;
+                padding: max(16px, env(safe-area-inset-top)) 3vw 16px 3vw;
             }
-            
-            .flower {
-                visibility: visible !important;
-                opacity: 1 !important;
-            }
-            
+
             .love-title {
-                position: relative !important;
-                top: auto !important;
-                left: auto !important;
-                transform: none !important;
-                font-size: 8vw;
-                margin: 15px 0;
-                order: 1;
-                z-index: 5;
+                grid-area: title;
+                width: auto;
+                max-width: none;
+                justify-self: center;
             }
-            
+
             .music-player {
-                position: relative !important;
-                top: auto !important;
-                left: auto !important;
-                transform: none !important;
-                width: 90vw;
-                max-width: 350px;
-                margin: 15px 0;
-                order: 3;
-                z-index: 5;
+                grid-area: player;
+                width: 100%;
+                align-self: start;
             }
-            
+
             .poem-card {
-                position: relative !important;
-                top: auto !important;
-                right: auto !important;
-                left: auto !important;
-                transform: none !important;
-                width: 90vw;
-                max-width: 350px;
-                margin: 15px 0 50px 0;
-                order: 4;
-                z-index: 5;
-                min-height: 200px;
-                height: auto;
-                overflow: visible;
-                flex-grow: 1;
+                grid-area: poem;
+                width: 100%;
+                max-height: calc(100dvh - 140px);
             }
-            
+        }
+
+        @media (min-width: 1100px) {
+            :root {
+                --bouquet-scale: 0.68;
+            }
+
+            .stage {
+                grid-template-columns: minmax(240px, 320px) 1fr minmax(280px, 400px);
+                column-gap: 28px;
+                padding: max(20px, env(safe-area-inset-top)) 4vw 20px 4vw;
+            }
+
+            .music-player {
+                flex-direction: column;
+                padding: 18px;
+            }
+
+            .play-pause-btn {
+                margin-bottom: 4px;
+            }
+        }
+
+        @media (max-width: 699px) and (orientation: landscape) {
+            :root {
+                --bouquet-scale: 0.34;
+            }
+
+            .stage {
+                grid-template-columns: minmax(180px, 1fr) minmax(200px, 1fr);
+                grid-template-rows: auto 1fr;
+                grid-template-areas:
+                    "title title"
+                    "player poem";
+                justify-items: stretch;
+            }
+
+            .love-title {
+                grid-area: title;
+                max-width: none;
+            }
+
+            .music-player,
+            .poem-card {
+                width: 100%;
+            }
+
+            .poem-card {
+                max-height: calc(100dvh - 88px);
+            }
+        }
+
+        @media (max-width: 480px) {
             .corner-icon {
                 display: none;
-            }
-        }
-
-        /* Tablets y pantallas medianas */
-        @media (max-width: 1024px) {
-            .love-title {
-                font-size: 6vw;
-                top: 20px;
-            }
-            
-            .music-player {
-                top: 15vh;
-                left: 3vw;
-                min-width: 250px;
-                max-width: 280px;
-                padding: 15px;
-            }
-            
-            .flowers {
-                transform: translateX(-50%) scale(0.7);
-                bottom: 0;
-            }
-            
-            .poem-card {
-                top: 15vh;
-                right: 3vw;
-                width: 85vw;
-                max-width: 350px;
-                padding: 20px;
-            }
-        }
-
-        /* Móviles en landscape */
-        @media (max-width: 768px) and (orientation: landscape) {
-            .flowers {
-                transform: scale(0.6) !important;
-                height: 35vh !important;
-            }
-            
-            .love-title {
-                font-size: 6vw;
-            }
-            
-            .music-player {
-                width: 70vw;
-                max-width: 300px;
-            }
-            
-            .poem-card {
-                width: 70vw;
-                max-width: 300px;
-            }
-        }
-
-        /* Móviles en portrait */
-        @media (max-width: 768px) and (orientation: portrait) {
-            .flowers {
-                order: 2 !important;
-                transform: scale(0.8) !important;
-                margin: 15px 0 !important;
-            }
-            
-            .music-player {
-                order: 3 !important;
-            }
-            
-            .poem-card {
-                order: 4 !important;
-            }
-        }
-
-        /* Móviles pequeños */
-        @media (max-width: 480px) {
-            .love-title {
-                font-size: 9vw;
-            }
-            
-            .flowers {
-                transform: scale(0.7) !important;
-                height: 35vh !important;
-                margin: 10px 0 !important;
-            }
-            
-            .music-player {
-                width: 95vw;
-                padding: 12px;
-            }
-            
-            .poem-card {
-                width: 95vw;
-                padding: 15px;
-                font-size: 0.95rem;
-            }
-        }
-
-        /* Móviles muy pequeños */
-        @media (max-width: 360px) {
-            .love-title {
-                font-size: 10vw;
-            }
-            
-            .flowers {
-                transform: scale(0.6) !important;
-                height: 30vh !important;
-                margin: 8px 0 !important;
-            }
-            
-            .music-player {
-                padding: 10px;
-            }
-            
-            .poem-card {
-                padding: 12px;
-                font-size: 0.9rem;
-            }
-        }
-
-        /* Teléfonos muy estrechos (como el tuyo) */
-        @media (max-width: 390px) and (max-height: 850px) {
-            body {
-                padding: 5px !important;
-                padding-bottom: 30px !important;
-            }
-            
-            .love-title {
-                font-size: 8vw !important;
-                margin: 10px 0 !important;
-            }
-            
-            .flowers {
-                transform: scale(0.5) !important;
-                height: 25vh !important;
-                margin: 5px 0 !important;
-            }
-            
-            .music-player {
-                width: 98vw !important;
-                padding: 8px !important;
-                margin: 8px 0 !important;
-            }
-            
-            .poem-card {
-                width: 98vw !important;
-                padding: 10px !important;
-                margin: 8px 0 30px 0 !important;
-                font-size: 0.85rem !important;
-            }
-            
-            #poem-text {
-                font-size: 0.8rem !important;
-                line-height: 1.2 !important;
             }
         }
 /*-------------------*/
@@ -759,17 +650,6 @@
 
 html, body {
     width: 100%;
-    overflow: hidden;
-}
-
-body {
-    height: 100vh;
-    height: calc(var(--vh, 1vh) * 100);
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    background-color: var(--dark-color);
-    perspective: 1000px;
 }
 
 /* Background and atmosphere */
@@ -859,51 +739,6 @@ body {
     }
 }
 
-/* Title styles */
-.main-title {
-    position: absolute;
-    top: 10vh;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: 'Arial Black', Arial, sans-serif;
-    font-size: clamp(2rem, 8vw, 4rem);
-    font-weight: 900;
-    color: #FFFF00;
-    -webkit-text-stroke: 2px white;
-    text-shadow: 
-        0 0 10px #8A2BE2,
-        0 0 20px #8A2BE2,
-        0 0 30px #8A2BE2,
-        0 0 40px #9932CC,
-        0 0 50px #9932CC,
-        0 0 60px #9932CC;
-    text-align: center;
-    letter-spacing: 3px;
-    animation: glow-pulse 2s ease-in-out infinite alternate;
-    z-index: 100;
-}
-
-@keyframes glow-pulse {
-    from {
-        text-shadow: 
-            0 0 10px #8A2BE2,
-            0 0 20px #8A2BE2,
-            0 0 30px #8A2BE2,
-            0 0 40px #9932CC,
-            0 0 50px #9932CC,
-            0 0 60px #9932CC;
-    }
-    to {
-        text-shadow: 
-            0 0 20px #8A2BE2,
-            0 0 30px #8A2BE2,
-            0 0 40px #8A2BE2,
-            0 0 50px #9932CC,
-            0 0 60px #9932CC,
-            0 0 70px #9932CC;
-    }
-}
-
 .corner-icon {
     position: absolute;
     top: 15px;
@@ -929,32 +764,28 @@ body {
     animation-play-state: paused !important;
 }
 
-/* Poem card styles */
 .poem-card {
-    position: absolute;
-    top: 50%;
-    right: 5vw;
-    transform: translateY(-50%);
-    width: 400px;
-    max-width: 90vw;
-    padding: 25px;
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(5px);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    position: relative;
+    width: min(100%, 420px);
+    max-height: 34vh;
+    padding: 14px 16px;
+    background-color: rgba(12, 2, 18, 0.82);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 215, 0, 0.28);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.35);
     z-index: 20;
-    min-height: 150px;
-    height: auto;
-    overflow: visible;
-    flex-grow: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-anchor: none;
+    -webkit-overflow-scrolling: touch;
 }
 
 #poem-text {
-    color: #f0f0f0;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1.1rem;
-    line-height: 1.6;
+    color: #fff6c8;
+    font-family: "Sour Gummy", system-ui, cursive;
+    font-size: clamp(0.95rem, 2.6vw, 1.1rem);
+    line-height: 1.55;
     white-space: pre-wrap;
 }
 
@@ -997,36 +828,6 @@ body {
     to { opacity: 1; }
 }
 
-/* Responsive design */
-@media (max-width: 1024px) {
-    .poem-card {
-        top: 3vh;
-        transform: translateX(-50%);
-        left: 50%;
-        right: auto;
-        width: 90vw;
-        max-width: 500px;
-    }
-
-    .flowers {
-        transform: scale(0.8);
-        bottom: -5vmin;
-    }
-}
-
-@media (max-width: 480px) {
-    .poem-card {
-        padding: 15px;
-        top: 2vh; 
-    }
-
-    .flowers {
-        transform: scale(0.65);
-        bottom: -10vmin;
-    }
-
-    #poem-text {
-        font-size: 0.85rem; 
-        line-height: 1.4; 
-    }
+.time-display {
+    width: 100%;
 }

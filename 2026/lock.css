@@ -1,0 +1,409 @@
+.lock-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 18px;
+    padding: max(24px, env(safe-area-inset-top)) 22px max(28px, env(safe-area-inset-bottom));
+    background:
+        radial-gradient(circle at 50% 42%, rgba(255, 213, 106, 0.16), transparent 34%),
+        radial-gradient(ellipse 80% 50% at 50% 100%, rgba(20, 0, 24, 0.55), transparent 70%);
+}
+
+.lock-gate__bloom {
+    position: absolute;
+    inset: 20% 10%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 233, 168, 0.38), transparent 68%);
+    opacity: 0;
+    transform: scale(0.4);
+    pointer-events: none;
+}
+
+.lock-gate__copy {
+    width: min(100%, 22rem);
+    text-align: center;
+}
+
+.lock-gate__title {
+    color: var(--gold-hot);
+    font-family: Epilogue, "Segoe UI", sans-serif;
+    font-size: clamp(1.7rem, 7vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    text-wrap: balance;
+    text-shadow: 0 8px 18px rgba(20, 0, 24, 0.45), 0 0 22px rgba(255, 213, 106, 0.5);
+}
+
+.lock-gate__status,
+.lock-gate__hint {
+    color: var(--gold-ink);
+    font-size: clamp(1rem, 2.6vw, 1.15rem);
+    line-height: 1.45;
+    text-wrap: balance;
+}
+
+.lock-gate__status {
+    margin-top: 12px;
+}
+
+.lock-gate__title.is-fresh,
+.lock-gate__status.is-fresh {
+    animation: lock-copy-in 380ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lock-gate__hint {
+    min-height: 1.5em;
+    color: var(--gold);
+    font-size: 0.95rem;
+}
+
+.lock-pad {
+    position: relative;
+    width: min(168px, 46vw);
+    height: min(168px, 46vw);
+    min-width: 132px;
+    min-height: 132px;
+    border: 0;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 34% 28%, rgba(255, 243, 200, 0.2), transparent 42%),
+        radial-gradient(circle at 50% 50%, #2a0838, #140018 72%);
+    color: var(--gold);
+    box-shadow:
+        0 16px 36px rgba(8, 0, 12, 0.45),
+        inset 0 0 0 2px rgba(255, 213, 106, 0.72);
+    cursor: pointer;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+}
+
+.lock-pad:focus-visible {
+    outline: 3px solid var(--gold-hot);
+    outline-offset: 6px;
+}
+
+.lock-pad__rings,
+.lock-pad__rings::before,
+.lock-pad__rings::after {
+    position: absolute;
+    inset: -18px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 213, 106, 0.38);
+    pointer-events: none;
+}
+
+.lock-pad__rings::before,
+.lock-pad__rings::after {
+    content: "";
+    inset: -32px;
+}
+
+.lock-pad__rings::after {
+    inset: -48px;
+    opacity: 0.55;
+}
+
+.lock-pad__light {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff6b6b;
+    transform: translateX(-50%);
+    box-shadow: 0 6px 12px rgba(255, 107, 107, 0.45);
+}
+
+.lock-pad__well {
+    position: absolute;
+    inset: 14px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.lock-pad__print,
+.lock-pad__check {
+    position: absolute;
+    inset: 12%;
+    width: 76%;
+    height: 76%;
+}
+
+.lock-pad__print path {
+    stroke: currentColor;
+    stroke-width: 2.35;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.lock-pad__check {
+    opacity: 0;
+    transform: scale(0.7);
+}
+
+.lock-pad__check path {
+    stroke: currentColor;
+    stroke-width: 3.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 42;
+    stroke-dashoffset: 42;
+}
+
+.lock-pad__scan {
+    position: absolute;
+    left: 12%;
+    right: 12%;
+    top: 50%;
+    height: 5px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, #fff8dc, var(--gold-hot), #fff8dc, transparent);
+    box-shadow: 0 0 18px var(--gold-hot), 0 0 36px rgba(255, 213, 106, 0.55);
+    opacity: 0;
+    transform: translateY(-46px);
+    pointer-events: none;
+}
+
+.lock-burst {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.lock-burst__petal {
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    width: 14px;
+    height: 22px;
+    border-radius: 60% 60% 55% 10%;
+    background: linear-gradient(180deg, var(--gold-hot), #ff8c00);
+    box-shadow: 0 8px 16px rgba(255, 183, 0, 0.35);
+    opacity: 0;
+    animation: lock-petal-fly 920ms cubic-bezier(0.16, 1, 0.3, 1) var(--delay) forwards;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.lock-gate[data-state="idle"] .lock-pad {
+    animation: lock-pad-breathe 2.4s ease-in-out infinite;
+}
+
+.lock-gate[data-state="idle"] .lock-pad__rings,
+.lock-gate[data-state="idle"] .lock-pad__rings::before,
+.lock-gate[data-state="idle"] .lock-pad__rings::after {
+    animation: lock-ring-pulse 2.4s ease-out infinite;
+}
+
+.lock-gate[data-state="idle"] .lock-pad__rings::before {
+    animation-delay: 0.35s;
+}
+
+.lock-gate[data-state="idle"] .lock-pad__rings::after {
+    animation-delay: 0.7s;
+}
+
+.lock-gate[data-state="idle"] .lock-pad__light {
+    animation: lock-light-wait 1.2s ease-in-out infinite;
+}
+
+.lock-gate[data-state="scanning"] .lock-pad {
+    transform: scale(0.96);
+    box-shadow:
+        0 10px 28px rgba(8, 0, 12, 0.4),
+        inset 0 0 0 2px var(--gold-hot),
+        0 0 28px rgba(255, 213, 106, 0.35);
+}
+
+.lock-gate[data-state="scanning"] .lock-pad__light {
+    background: var(--gold);
+    box-shadow: 0 0 14px var(--gold-hot);
+    animation: lock-light-scan 0.45s linear infinite;
+}
+
+.lock-gate[data-state="scanning"] .lock-pad__scan {
+    opacity: 1;
+    animation: lock-scan-sweep 1.05s ease-in-out infinite;
+}
+
+.lock-gate[data-state="scanning"] .lock-pad__print {
+    filter: drop-shadow(0 0 8px rgba(255, 233, 168, 0.7));
+}
+
+.lock-gate[data-state="retry"] .lock-pad {
+    animation: lock-pad-shake 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lock-gate[data-state="match"] .lock-pad,
+.lock-gate[data-state="celebrating"] .lock-pad {
+    color: #2b013e;
+    background:
+        radial-gradient(circle at 34% 28%, #fff3c8, transparent 40%),
+        linear-gradient(180deg, var(--gold-hot), var(--gold));
+    box-shadow:
+        0 16px 40px rgba(255, 183, 0, 0.4),
+        inset 0 0 0 2px #fff3c8;
+}
+
+.lock-gate[data-state="match"] .lock-pad__light,
+.lock-gate[data-state="celebrating"] .lock-pad__light {
+    background: #2d5016;
+    box-shadow: 0 0 10px #6b8e23;
+    animation: none;
+}
+
+.lock-gate[data-state="match"] .lock-pad__print,
+.lock-gate[data-state="celebrating"] .lock-pad__print {
+    opacity: 0;
+}
+
+.lock-gate[data-state="match"] .lock-pad__check,
+.lock-gate[data-state="celebrating"] .lock-pad__check {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.lock-gate[data-state="match"] .lock-pad__check path,
+.lock-gate[data-state="celebrating"] .lock-pad__check path {
+    animation: lock-check-draw 420ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.lock-gate[data-state="match"] .lock-gate__bloom,
+.lock-gate[data-state="celebrating"] .lock-gate__bloom {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 500ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lock-gate[data-state="match"] .lock-pad,
+.lock-gate[data-state="celebrating"] .lock-pad {
+    pointer-events: none;
+}
+
+.lock-gate[data-state="celebrating"] .lock-pad__rings,
+.lock-gate[data-state="celebrating"] .lock-pad__rings::before,
+.lock-gate[data-state="celebrating"] .lock-pad__rings::after {
+    animation: lock-ring-burst 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.lock-gate.is-leaving {
+    pointer-events: none;
+    animation: lock-leave 850ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.lock-gate[hidden] {
+    display: none;
+}
+
+@keyframes lock-pad-breathe {
+    0%,
+    100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+}
+
+@keyframes lock-ring-pulse {
+    0% { opacity: 0.7; transform: scale(0.92); }
+    100% { opacity: 0; transform: scale(1.12); }
+}
+
+@keyframes lock-light-wait {
+    0%,
+    100% { opacity: 0.45; }
+    50% { opacity: 1; }
+}
+
+@keyframes lock-light-scan {
+    50% { opacity: 0.35; }
+}
+
+@keyframes lock-scan-sweep {
+    0% { transform: translateY(-46px); }
+    100% { transform: translateY(46px); }
+}
+
+@keyframes lock-pad-shake {
+    20% { transform: translateX(-7px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(3px); }
+}
+
+@keyframes lock-check-draw {
+    to { stroke-dashoffset: 0; }
+}
+
+@keyframes lock-ring-burst {
+    to { opacity: 0; transform: scale(1.9); }
+}
+
+@keyframes lock-petal-fly {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(var(--angle)) translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-42vh) scale(0.35);
+    }
+}
+
+@keyframes lock-copy-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+        filter: blur(6px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+}
+
+@keyframes lock-leave {
+    to {
+        opacity: 0;
+        filter: blur(16px);
+        transform: scale(1.08);
+    }
+}
+
+@media (hover: hover) {
+    .lock-gate[data-state="idle"] .lock-pad:hover,
+    .lock-gate[data-state="retry"] .lock-pad:hover {
+        color: var(--gold-hot);
+        transform: scale(1.05);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lock-gate *,
+    .lock-gate *::before,
+    .lock-gate *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .lock-pad {
+        transform: none !important;
+    }
+}
