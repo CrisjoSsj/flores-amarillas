@@ -2,6 +2,8 @@
     position: fixed;
     inset: 0;
     z-index: 80;
+    -webkit-user-select: none;
+    user-select: none;
     display: grid;
     justify-items: center;
     align-content: center;

@@ -266,7 +266,15 @@ export function startSmileGate({ onComplete, prefersReducedMotion }) {
     shutter.addEventListener('pointerdown', (event) => {
         if (event.button !== 0) return;
         event.preventDefault();
+        try {
+            shutter.setPointerCapture(event.pointerId);
+        } catch {
+            // Tests and some browsers skip capture.
+        }
         startHold();
+    });
+    shutter.addEventListener('contextmenu', (event) => {
+        event.preventDefault();
     });
     shutter.addEventListener('pointerup', cancelHold);
     shutter.addEventListener('pointercancel', cancelHold);

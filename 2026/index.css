@@ -44,6 +44,12 @@ body {
     overflow: hidden;
 }
 
+button {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
 body {
     background:
         radial-gradient(ellipse 90% 48% at 50% 100%, rgba(255, 186, 60, 0.28), transparent 58%),
@@ -415,15 +421,49 @@ body.is-locked:not(.is-unlocking) .flowers {
 }
 
 @media (max-width: 699px) {
+    :root { --bouquet-scale: 0.82; }
+
     .moon {
         top: 6%;
         left: auto;
         right: 8%;
     }
+
+    .stage {
+        grid-template-rows: auto auto;
+        gap: 8px;
+        padding-bottom: 0;
+    }
+
+    .love-title {
+        font-size: clamp(1.3rem, 7vw, 1.85rem);
+    }
+
+    .poem-card {
+        width: min(100%, 22rem);
+        max-height: none;
+        padding: 12px 14px 10px;
+    }
+
+    #poem-text {
+        font-size: 0.86rem;
+        line-height: 1.4;
+    }
+
+    .poem-card-footer {
+        margin-top: 8px;
+    }
+
+    .hug-sticker {
+        left: auto;
+        right: max(8px, env(safe-area-inset-right));
+        bottom: max(12px, env(safe-area-inset-bottom));
+        width: min(22vw, 88px);
+    }
 }
 
 @media (min-width: 700px) {
-    :root { --bouquet-scale: 0.58; }
+    :root { --bouquet-scale: 0.72; }
 
     .stage {
         grid-template-columns: minmax(0, 1fr) minmax(240px, 380px);
@@ -452,7 +492,7 @@ body.is-locked:not(.is-unlocking) .flowers {
 }
 
 @media (min-width: 1100px) {
-    :root { --bouquet-scale: 0.68; }
+    :root { --bouquet-scale: 0.8; }
 
     .stage {
         grid-template-columns: minmax(0, 1fr) minmax(280px, 400px);
@@ -776,3 +816,9 @@ body.is-locked:not(.is-unlocking) .flowers {
         @keyframes moving-grass--8 { from, to { transform: scale(0.55) rotate(50deg) rotateY(-70deg); } 50% { transform: scale(0.55) rotate(53deg) rotateY(-65deg); } }
         @keyframes moving-grass--9 { from, to { transform: scale(0.3) rotate(20deg) rotateY(90deg); } 50% { transform: scale(0.3) rotate(23deg) rotateY(95deg); } }
         @keyframes moving-grass--10 { from, to { transform: scale(0.35) rotate(-45deg) rotateY(-120deg); } 50% { transform: scale(0.35) rotate(-42deg) rotateY(-115deg); } }
+
+@media (max-width: 699px) {
+    .flowers {
+        bottom: 1vh;
+    }
+}
