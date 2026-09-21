@@ -3,7 +3,7 @@ import { playMatch, playRetry, playShutter, startScanHum, stopScanHum, unlockSfx
 const HOLD_MS = 1800;
 const LEAVE_MS = 850;
 const READY_MS = 500;
-const FRAME_SRC = 'smile-frame.png';
+const FRAME_SRC = '../img/smile-frame.png';
 const HOLE = { top: 0.12, right: 0.115, bottom: 0.15, left: 0.115 };
 
 function pulse(pattern) {

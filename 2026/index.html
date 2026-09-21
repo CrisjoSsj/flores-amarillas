@@ -16,10 +16,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@500;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="lock.css">
-    <link rel="stylesheet" href="quest.css">
-    <link rel="stylesheet" href="bouquet.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/lock.css">
+    <link rel="stylesheet" href="css/quest.css">
+    <link rel="stylesheet" href="css/bouquet.css">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23ffd700'/%3E%3Ccircle cx='50' cy='50' r='16' fill='%23654321'/%3E%3C/svg%3E">
 </head>
 <body class="is-locked not-loaded">
@@ -72,7 +72,7 @@
             <span class="visually-hidden">Poner huella biométrica</span>
         </button>
         <p id="lock-hint" class="lock-gate__hint">Mantén presionado el sensor</p>
-        <img class="lock-sticker" src="bubu-hill.webp" width="415" height="521" alt="" aria-hidden="true">
+        <img class="lock-sticker" src="img/bubu-hill.webp" width="415" height="521" alt="" aria-hidden="true">
         <div id="lock-burst" class="lock-burst" aria-hidden="true"></div>
     </div>
     <div id="smile-gate" class="quest-gate" hidden role="dialog" aria-modal="true" aria-labelledby="smile-title" aria-describedby="smile-context smile-status">
@@ -94,9 +94,9 @@
                 </div>
                 <span class="smile-scan"></span>
             </div>
-            <img class="smile-well__frame" src="smile-frame.png" alt="" aria-hidden="true">
+            <img class="smile-well__frame" src="img/smile-frame.png" alt="" aria-hidden="true">
         </div>
-        <img class="smile-sticker" src="bubu-field.webp" width="473" height="313" alt="" aria-hidden="true">
+        <img class="smile-sticker" src="img/bubu-field.webp" width="473" height="313" alt="" aria-hidden="true">
         <button type="button" id="smile-shutter" class="quest-shutter">Mantén si estás sonriendo</button>
         <div id="smile-share" class="smile-share" hidden>
             <p id="smile-share-copy">Sonrisa escaneada. ¿La compartes… o seguimos?</p>
@@ -110,7 +110,7 @@
     <div id="falling-flower-container" aria-hidden="true"></div>
     <div class="stage" inert>
     <h1 class="love-title">Te traje<br>un jardín</h1>
-    <img class="hug-sticker" src="bubu-dudu.webp" width="498" height="498" alt="" aria-hidden="true">
+    <img class="hug-sticker" src="img/bubu-dudu.webp" width="498" height="498" alt="" aria-hidden="true">
     <div class="poem-card">
         <span class="poem-card__seal" aria-hidden="true"></span>
         <span class="poem-card__press" aria-hidden="true"></span>
@@ -179,6 +179,6 @@
     <audio id="audioPlayer" loop hidden preload="auto">
         <source src="../sound.mp3" type="audio/mpeg">
     </audio> 
-    <script type="module" src="index.js"></script>
+    <script type="module" src="js/index.js"></script>
 </body>
 </html>
