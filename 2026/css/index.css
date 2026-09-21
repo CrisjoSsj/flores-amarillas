@@ -421,7 +421,7 @@ body.is-locked:not(.is-unlocking) .flowers {
 }
 
 @media (max-width: 699px) {
-    :root { --bouquet-scale: 0.82; }
+    :root { --bouquet-scale: 1.22; }
 
     .moon {
         top: 6%;
@@ -819,6 +819,6 @@ body.is-locked:not(.is-unlocking) .flowers {
 
 @media (max-width: 699px) {
     .flowers {
-        bottom: 1vh;
+        bottom: 0;
     }
 }
