@@ -1,29 +1,3 @@
-// --- ROBUST CONSOLE & SHORTCUT BLOCKER ---
-(function() {
-    // Block right-click context menu
-    document.addEventListener('contextmenu', event => event.preventDefault());
-
-    // Block key combinations
-    document.addEventListener('keydown', function(e) {
-        if (
-            e.key === 'F12' ||
-            (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
-            (e.ctrlKey && ['U', 'S'].includes(e.key.toUpperCase()))
-        ) {
-            e.preventDefault();
-        }
-    });
-
-    // --- Aggressive DevTools blocking using a debugger loop ---
-    const devToolsTrap = () => {
-        debugger;
-    };
-    // Run the trap at a high frequency
-    setInterval(devToolsTrap, 50);
-})();
-
-
-// --- MAIN APPLICATION LOGIC ---
 document.addEventListener('DOMContentLoaded', function() {
     
     // Initial load animation
