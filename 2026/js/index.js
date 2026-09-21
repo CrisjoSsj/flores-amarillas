@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
         "este jardín se enciende al verte llegar.\n\n" +
         "Cada pétalo guarda un gracias sincero,\n" +
         "un rato de oro, un abrazo entero.\n" +
-        "Gracias por estar. Aquí hay espacio.";
+        "Gracias por estar.";
 
         const poemElement = document.getElementById('poem-text');
         let charIndex = 0;
