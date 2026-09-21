@@ -8,8 +8,8 @@
     gap: 18px;
     padding: max(24px, env(safe-area-inset-top)) 22px max(28px, env(safe-area-inset-bottom));
     background:
-        radial-gradient(circle at 50% 42%, rgba(255, 213, 106, 0.16), transparent 34%),
-        radial-gradient(ellipse 80% 50% at 50% 100%, rgba(20, 0, 24, 0.55), transparent 70%);
+        radial-gradient(circle at 50% 42%, rgba(255, 213, 106, 0.12), transparent 34%),
+        radial-gradient(ellipse 80% 50% at 50% 100%, rgba(20, 0, 24, 0.22), transparent 70%);
 }
 
 .lock-gate__bloom {
@@ -46,6 +46,10 @@
     text-wrap: balance;
 }
 
+.lock-gate__copy .quest-context {
+    margin-top: 10px;
+}
+
 .lock-gate__status {
     margin-top: 12px;
 }
@@ -59,6 +63,15 @@
     min-height: 1.5em;
     color: var(--gold);
     font-size: 0.95rem;
+}
+
+.lock-sticker {
+    width: min(168px, 48vw);
+    height: auto;
+    margin-top: -2px;
+    pointer-events: none;
+    border-radius: 18px;
+    box-shadow: 0 12px 24px rgba(8, 0, 12, 0.35);
 }
 
 .lock-pad {

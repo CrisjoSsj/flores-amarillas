@@ -1,3 +1,5 @@
+import { playMatch, playRetry, playScanDeep, startScanHum, stopScanHum, unlockSfx } from './sfx.js';
+
 const SCAN_MS = 2200;
 const MATCH_MS = 1400;
 const CELEBRATE_MS = 1600;
@@ -9,30 +11,30 @@ const PETAL_COUNT = 18;
 const COPY = {
     idle: {
         title: 'Esto está bloqueado',
-        status: 'Para entrar tienes que poner tu huella biométrica',
+        status: 'Apoya el dedo y quédate un segundo.',
         hint: 'Mantén presionado el sensor'
     },
     scanning: {
-        title: 'Escaneando',
-        status: 'Leyendo tu huella… no sueltes',
+        title: 'Leyendo tu huella',
+        status: 'No sueltes. Esto toma un momento.',
         hint: 'Sigue presionando'
     },
     scanningDeep: {
-        status: 'Comparando con la huella guardada…'
+        status: 'Comparando… ya casi.'
     },
     retry: {
         title: 'Aún no',
-        status: 'Sigue presionando, no sueltes el sensor',
-        hint: 'Inténtalo otra vez y no sueltes'
+        status: 'Quédate un poco más, sin soltar.',
+        hint: 'Otra vez, sin soltar'
     },
     match: {
-        title: 'Huella correcta',
-        status: 'Eres tú, mi vida',
+        title: 'Listo',
+        status: 'Ya te reconocí. Pasa.',
         hint: ''
     },
     celebrating: {
-        title: 'Huella correcta',
-        status: 'Abriendo tu jardín…',
+        title: 'Listo',
+        status: 'Ahora, una sonrisa.',
         hint: ''
     }
 };
@@ -77,7 +79,8 @@ function spawnBurst(burst) {
     }
 }
 
-export function startLockGate({ onUnlocked, onMatch, onHold, prefersReducedMotion }) {
+export function startLockGate({ onUnlocked, onComplete, onMatch, onHold, prefersReducedMotion }) {
+    const done = onComplete || onUnlocked;
     const gate = document.getElementById('lock-gate');
     const pad = document.getElementById('lock-pad');
     const titleEl = document.getElementById('lock-title');
@@ -87,7 +90,7 @@ export function startLockGate({ onUnlocked, onMatch, onHold, prefersReducedMotio
 
     if (!gate || !pad || !titleEl || !statusEl || !hintEl) {
         onMatch?.();
-        onUnlocked();
+        done();
         return;
     }
 
@@ -110,13 +113,10 @@ export function startLockGate({ onUnlocked, onMatch, onHold, prefersReducedMotio
     };
 
     const finishUnlock = () => {
-        document.body.classList.add('is-unlocking');
-        document.body.classList.remove('not-loaded');
         gate.classList.add('is-leaving');
         window.setTimeout(() => {
             gate.remove();
-            document.body.classList.remove('is-locked', 'is-unlocking');
-            onUnlocked();
+            done();
         }, prefersReducedMotion ? 0 : LEAVE_MS);
     };
 
@@ -133,8 +133,10 @@ export function startLockGate({ onUnlocked, onMatch, onHold, prefersReducedMotio
         isHolding = false;
         activePointerId = null;
         clearScanTimers();
+        stopScanHum();
         setPhase('match');
         onMatch?.();
+        playMatch();
         pulse([18, 40, 28]);
         window.setTimeout(celebrate, prefersReducedMotion ? 0 : MATCH_MS);
     };
@@ -146,6 +148,7 @@ export function startLockGate({ onUnlocked, onMatch, onHold, prefersReducedMotio
         window.clearTimeout(retryTimer);
         setPhase('scanning');
         onHold?.();
+        unlockSfx();
         pulse(12);
 
         if (prefersReducedMotion) {
@@ -153,9 +156,11 @@ export function startLockGate({ onUnlocked, onMatch, onHold, prefersReducedMotio
             return;
         }
 
+        startScanHum('print');
         midTimer = window.setTimeout(() => {
             if (phase === 'scanning') {
                 applyCopy(gate, titleEl, statusEl, hintEl, 'scanningDeep');
+                playScanDeep();
             }
         }, SCAN_MID_MS);
 
@@ -171,6 +176,8 @@ export function startLockGate({ onUnlocked, onMatch, onHold, prefersReducedMotio
         isHolding = false;
         activePointerId = null;
         clearScanTimers();
+        stopScanHum();
+        playRetry();
         setPhase('retry');
         retryTimer = window.setTimeout(() => {
             if (phase === 'retry') setPhase('idle');

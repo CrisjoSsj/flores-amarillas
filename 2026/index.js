@@ -1,16 +1,13 @@
-import { startLockGate } from './lock.js';
+import { startQuest } from './quest.js';
 
 document.addEventListener('DOMContentLoaded', function () {
-    const particleContainer = document.getElementById('particle-container');
     const fallingContainer = document.getElementById('falling-flower-container');
     const audioPlayer = document.getElementById('audioPlayer');
     const listenHint = document.getElementById('listen-hint');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    let lastParticleTime = 0;
     let lastFlowerTime = 0;
-    const particleInterval = prefersReducedMotion ? 2400 : 280;
-    const flowerInterval = prefersReducedMotion ? 4000 : 720;
+    const flowerInterval = prefersReducedMotion ? 4000 : 420;
     let atmosphereStarted = false;
     let songStarted = false;
     let listenFallbackArmed = false;
@@ -28,19 +25,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function animationLoop(timestamp) {
         if (!prefersReducedMotion && atmosphereStarted) {
-            if (timestamp - lastParticleTime > particleInterval) {
-                const bloom = getBouquetBloom();
-                createParticle(
-                    bloom.x + (Math.random() - 0.5) * 120,
-                    bloom.y + (Math.random() - 0.5) * 50
-                );
-                createParticle(
-                    bloom.x + (Math.random() - 0.5) * 80,
-                    bloom.y + 18 + Math.random() * 28
-                );
-                lastParticleTime = timestamp;
-            }
-
             if (timestamp - lastFlowerTime > flowerInterval) {
                 createFallingFlower();
                 lastFlowerTime = timestamp;
@@ -48,16 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         requestAnimationFrame(animationLoop);
-    }
-
-    function createParticle(x, y) {
-        if (!particleContainer) return;
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        const size = Math.random() * 4 + 2;
-        particle.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px;animation-delay:${Math.random() * 2}s;`;
-        particleContainer.appendChild(particle);
-        setTimeout(() => particle.remove(), 9000);
     }
 
     function createFallingFlower() {
@@ -76,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const flower = document.createElement('div');
         flower.className = 'falling-flower';
         const animDuration = Math.random() * 5 + 8;
-        const size = Math.random() * 16 + 10;
+        const size = Math.random() * 22 + 14;
 
         flowerWrapper.style.animationDuration = `${animDuration}s`;
         flower.style.width = `${size}px`;
@@ -90,6 +64,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function startAtmosphere() {
         atmosphereStarted = true;
+        if (prefersReducedMotion) return;
+        for (let index = 0; index < 10; index += 1) {
+            createFallingFlower();
+        }
     }
 
     function hideListenHint() {
@@ -145,13 +123,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function initPoemAnimation() {
-        const poemText = "Te traje el sol en un ramo.\n" +
-        "Cuando llegas, todo se abre.\n" +
-        "Tú me calmas.\n" +
-        "Tú no te me pierdes.\n\n" +
-        "Cada pétalo es tuyo.\n" +
-        "Gracias por estar.\n" +
-        "Te amo.";
+        const poemText = "Como un campo dorado al despertar,\n" +
+        "este jardín se enciende al verte llegar.\n\n" +
+        "Cada pétalo guarda un gracias sincero,\n" +
+        "un rato de oro, un abrazo entero.\n" +
+        "Gracias por estar. Aquí hay espacio.";
 
         const poemElement = document.getElementById('poem-text');
         let charIndex = 0;
@@ -173,21 +149,40 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function thickenBouquet() {
+        const bed = document.querySelector('.flowers');
+        const source = bed?.querySelector('.flower--2');
+        const glow = bed?.querySelector('.bouquet-glow');
+        if (!bed || !source || !glow) return;
+        [8, 9, 10].forEach((number) => {
+            const clone = source.cloneNode(true);
+            clone.className = `flower flower--${number}`;
+            bed.insertBefore(clone, glow);
+        });
+    }
+
     function initStarManager() {
         const night = document.querySelector('.night');
         if (!night) return;
-        const starCount = prefersReducedMotion ? 36 : 120;
+        const starCount = prefersReducedMotion ? 48 : 160;
         for (let index = 0; index < starCount; index += 1) {
             const star = document.createElement('div');
-            star.className = 'star';
-            star.style.top = `${Math.random() * 100}%`;
+            const roll = Math.random();
+            star.className = roll > 0.9 ? 'star star--gold' : roll > 0.78 ? 'star star--bright' : 'star';
+            star.style.top = `${Math.random() * 78}%`;
             star.style.left = `${Math.random() * 100}%`;
             star.style.animationDelay = `${Math.random() * 5}s`;
-            if (Math.random() > 0.84) {
-                star.style.width = '3px';
-                star.style.height = '3px';
-            }
             night.appendChild(star);
+        }
+        if (prefersReducedMotion) return;
+        for (let index = 0; index < 12; index += 1) {
+            const fly = document.createElement('div');
+            fly.className = 'firefly';
+            fly.style.top = `${48 + Math.random() * 42}%`;
+            fly.style.left = `${18 + Math.random() * 64}%`;
+            fly.style.animationDelay = `${Math.random() * 8}s`;
+            fly.style.animationDuration = `${7 + Math.random() * 6}s`;
+            night.appendChild(fly);
         }
     }
 
@@ -202,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function openGarden() {
         const stage = document.querySelector('.stage');
         const flowers = document.querySelector('.flowers');
+        startSong();
         stage?.removeAttribute('inert');
         flowers?.removeAttribute('inert');
         initPoemAnimation();
@@ -216,13 +212,13 @@ document.addEventListener('DOMContentLoaded', function () {
         audioPlayer.load();
     }
 
+    thickenBouquet();
     initStarManager();
     initViewportManager();
     requestAnimationFrame(animationLoop);
-    startLockGate({
+    startQuest({
         prefersReducedMotion,
         onHold: unlockAudio,
-        onMatch: startSong,
-        onUnlocked: openGarden
+        onFinished: openGarden
     });
 });

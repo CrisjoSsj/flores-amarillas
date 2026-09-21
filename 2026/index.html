@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Feliz día mi amor 2026</title>
+    <title>Feliz día de las flores amarillas</title>
     <meta property="og:title" content="Feliz día de las Flores Amarillas">
     <meta property="og:description" content="Te regalo estas flores amarillas">
     <meta property="og:image" content="https://te-deseo-feliz-21-de-septiembre.netlify.app/assets/icon.png">
@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@500;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="lock.css">
+    <link rel="stylesheet" href="quest.css">
     <link rel="stylesheet" href="bouquet.css">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23ffd700'/%3E%3Ccircle cx='50' cy='50' r='16' fill='%23654321'/%3E%3C/svg%3E">
 </head>
@@ -30,14 +31,18 @@
       FORM: Night garden lock. FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
     -->
     <div class="night" aria-hidden="true">
+        <div class="moon"></div>
+        <div class="field"></div>
         <div class="shooting-star"></div>
         <div class="shooting-star shooting-star--late"></div>
     </div>
-    <div id="lock-gate" class="lock-gate" role="dialog" aria-modal="true" aria-labelledby="lock-title" aria-describedby="lock-status" data-state="idle">
+    <div id="lock-gate" class="lock-gate" role="dialog" aria-modal="true" aria-labelledby="lock-title" aria-describedby="lock-context lock-status" data-state="idle">
         <div class="lock-gate__bloom" aria-hidden="true"></div>
         <div class="lock-gate__copy">
+            <p class="quest-step">1 de 2</p>
             <h1 id="lock-title" class="lock-gate__title">Esto está bloqueado</h1>
-            <p id="lock-status" class="lock-gate__status" role="status" aria-live="polite" aria-atomic="true">Para entrar tienes que poner tu huella biométrica</p>
+            <p id="lock-context" class="quest-context">Tu huella abre este jardín. Así sabemos que llegaste.</p>
+            <p id="lock-status" class="lock-gate__status" role="status" aria-live="polite" aria-atomic="true">Apoya el dedo y quédate un segundo.</p>
         </div>
         <button type="button" id="lock-pad" class="lock-pad" aria-describedby="lock-hint">
             <span class="lock-pad__rings" aria-hidden="true"></span>
@@ -67,13 +72,48 @@
             <span class="visually-hidden">Poner huella biométrica</span>
         </button>
         <p id="lock-hint" class="lock-gate__hint">Mantén presionado el sensor</p>
+        <img class="lock-sticker" src="bubu-hill.webp" width="415" height="521" alt="" aria-hidden="true">
         <div id="lock-burst" class="lock-burst" aria-hidden="true"></div>
     </div>
+    <div id="smile-gate" class="quest-gate" hidden role="dialog" aria-modal="true" aria-labelledby="smile-title" aria-describedby="smile-context smile-status">
+        <p class="quest-step">2 de 2</p>
+        <h1 id="smile-title" class="quest-title">Muéstrame una sonrisa</h1>
+        <p id="smile-context" class="quest-context">Una sonrisa tuya le queda bien a este día. Enséñala un momento.</p>
+        <p id="smile-status" class="quest-status" role="status" aria-live="polite">Sonríe y mantén presionado</p>
+        <div class="smile-well">
+            <div class="smile-well__stage">
+                <video id="smile-video" playsinline muted hidden></video>
+                <canvas id="smile-shot" hidden></canvas>
+                <div id="smile-face" class="smile-face">
+                    <svg viewBox="0 0 120 120" fill="none" aria-hidden="true">
+                        <circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="3"></circle>
+                        <circle cx="44" cy="50" r="5" fill="currentColor"></circle>
+                        <circle cx="76" cy="50" r="5" fill="currentColor"></circle>
+                        <path d="M38 74c8 14 36 14 44 0" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+                    </svg>
+                </div>
+                <span class="smile-scan"></span>
+            </div>
+            <img class="smile-well__frame" src="smile-frame.png" alt="" aria-hidden="true">
+        </div>
+        <img class="smile-sticker" src="bubu-field.webp" width="473" height="313" alt="" aria-hidden="true">
+        <button type="button" id="smile-shutter" class="quest-shutter">Mantén si estás sonriendo</button>
+        <div id="smile-share" class="smile-share" hidden>
+            <p id="smile-share-copy">Sonrisa escaneada. ¿La compartes… o seguimos?</p>
+            <div class="smile-share__actions">
+                <button type="button" id="smile-share-btn" class="quest-shutter quest-shutter--ghost">Compartirla</button>
+                <button type="button" id="smile-retake-btn" class="quest-shutter quest-shutter--ghost">Otra sonrisa</button>
+                <button type="button" id="smile-continue-btn" class="quest-shutter">Seguir</button>
+            </div>
+        </div>
+    </div>
     <div id="falling-flower-container" aria-hidden="true"></div>
-    <div id="particle-container" aria-hidden="true"></div>
     <div class="stage" inert>
-    <h1 class="love-title">Para ti,<br>mi vida</h1>
+    <h1 class="love-title">Te traje<br>un jardín</h1>
+    <img class="hug-sticker" src="bubu-dudu.webp" width="498" height="498" alt="" aria-hidden="true">
     <div class="poem-card">
+        <span class="poem-card__seal" aria-hidden="true"></span>
+        <span class="poem-card__press" aria-hidden="true"></span>
         <p id="poem-text"></p>
         <div class="poem-card-footer">
             <small>Con cariño, Crisjo</small>
@@ -107,11 +147,11 @@
             <svg class="bouquet-wrap__paper" viewBox="0 0 200 240" aria-hidden="true">
                 <defs>
                     <linearGradient id="wrap-paper" x1="28" y1="0" x2="176" y2="240" gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#fbf4dc"></stop>
-                        <stop offset="0.36" stop-color="#f0d9a4"></stop>
-                        <stop offset="0.5" stop-color="#fff6d6"></stop>
-                        <stop offset="0.72" stop-color="#e4c27a"></stop>
-                        <stop offset="1" stop-color="#c9a154"></stop>
+                        <stop offset="0" stop-color="#f3e2b0"></stop>
+                        <stop offset="0.36" stop-color="#e0c07a"></stop>
+                        <stop offset="0.5" stop-color="#f6e4b4"></stop>
+                        <stop offset="0.72" stop-color="#c9a154"></stop>
+                        <stop offset="1" stop-color="#9a7430"></stop>
                     </linearGradient>
                     <linearGradient id="wrap-crease" x1="92" y1="10" x2="122" y2="214" gradientUnits="userSpaceOnUse">
                         <stop offset="0" stop-color="rgba(255,252,240,0)"></stop>
