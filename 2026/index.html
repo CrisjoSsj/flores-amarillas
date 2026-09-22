@@ -18,7 +18,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@500;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/2026/css/index.css">
     <link rel="stylesheet" href="/2026/css/lock.css">
-    <link rel="stylesheet" href="/2026/css/quest.css">
     <link rel="stylesheet" href="/2026/css/bouquet.css">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23ffd700'/%3E%3Ccircle cx='50' cy='50' r='16' fill='%23654321'/%3E%3C/svg%3E">
 </head>
@@ -39,9 +38,8 @@
     <div id="lock-gate" class="lock-gate" role="dialog" aria-modal="true" aria-labelledby="lock-title" aria-describedby="lock-context lock-status" data-state="idle">
         <div class="lock-gate__bloom" aria-hidden="true"></div>
         <div class="lock-gate__copy">
-            <p class="quest-step">1 de 2</p>
             <h1 id="lock-title" class="lock-gate__title">Esto está bloqueado</h1>
-            <p id="lock-context" class="quest-context">Tu huella abre este jardín. Así sabemos que llegaste.</p>
+            <p id="lock-context" class="lock-gate__context">Tu huella abre este jardín. Así sabemos que llegaste.</p>
             <p id="lock-status" class="lock-gate__status" role="status" aria-live="polite" aria-atomic="true">Apoya el dedo y quédate un segundo.</p>
         </div>
         <button type="button" id="lock-pad" class="lock-pad" aria-describedby="lock-hint">
@@ -74,38 +72,6 @@
         <p id="lock-hint" class="lock-gate__hint">Mantén presionado el sensor</p>
         <img class="lock-sticker" src="img/bubu-hill.webp" width="415" height="521" alt="" aria-hidden="true">
         <div id="lock-burst" class="lock-burst" aria-hidden="true"></div>
-    </div>
-    <div id="smile-gate" class="quest-gate" hidden role="dialog" aria-modal="true" aria-labelledby="smile-title" aria-describedby="smile-context smile-status">
-        <p class="quest-step">2 de 2</p>
-        <h1 id="smile-title" class="quest-title">Muéstrame una sonrisa</h1>
-        <p id="smile-context" class="quest-context">Una sonrisa tuya le queda bien a este día. Enséñala un momento.</p>
-        <p id="smile-status" class="quest-status" role="status" aria-live="polite">Sonríe y mantén presionado</p>
-        <div class="smile-well">
-            <div class="smile-well__stage">
-                <video id="smile-video" playsinline muted hidden></video>
-                <canvas id="smile-shot" hidden></canvas>
-                <div id="smile-face" class="smile-face">
-                    <svg viewBox="0 0 120 120" fill="none" aria-hidden="true">
-                        <circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="3"></circle>
-                        <circle cx="44" cy="50" r="5" fill="currentColor"></circle>
-                        <circle cx="76" cy="50" r="5" fill="currentColor"></circle>
-                        <path d="M38 74c8 14 36 14 44 0" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
-                    </svg>
-                </div>
-                <span class="smile-scan"></span>
-            </div>
-            <img class="smile-well__frame" src="img/smile-frame.png" alt="" aria-hidden="true">
-        </div>
-        <img class="smile-sticker" src="img/bubu-field.webp" width="473" height="313" alt="" aria-hidden="true">
-        <button type="button" id="smile-shutter" class="quest-shutter">Mantén si estás sonriendo</button>
-        <div id="smile-share" class="smile-share" hidden>
-            <p id="smile-share-copy">Sonrisa escaneada. ¿La compartes… o seguimos?</p>
-            <div class="smile-share__actions">
-                <button type="button" id="smile-share-btn" class="quest-shutter quest-shutter--ghost">Compartirla</button>
-                <button type="button" id="smile-retake-btn" class="quest-shutter quest-shutter--ghost">Otra sonrisa</button>
-                <button type="button" id="smile-continue-btn" class="quest-shutter">Seguir</button>
-            </div>
-        </div>
     </div>
     <div id="falling-flower-container" aria-hidden="true"></div>
     <div class="stage" inert>

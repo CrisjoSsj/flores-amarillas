@@ -1,5 +1,4 @@
 import { startLockGate } from './lock.js';
-import { startSmileGate } from './smile.js';
 
 export function startQuest({ prefersReducedMotion, onHold, onMatch, onFinished }) {
     const openGarden = () => {
@@ -15,11 +14,6 @@ export function startQuest({ prefersReducedMotion, onHold, onMatch, onFinished }
         prefersReducedMotion,
         onHold,
         onMatch,
-        onComplete: () => {
-            startSmileGate({
-                prefersReducedMotion,
-                onComplete: openGarden
-            });
-        }
+        onComplete: openGarden
     });
 }

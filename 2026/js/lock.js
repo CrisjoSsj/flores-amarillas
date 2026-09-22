@@ -34,7 +34,7 @@ const COPY = {
     },
     celebrating: {
         title: 'Listo',
-        status: 'Ahora, una sonrisa.',
+        status: 'El jardín se abre.',
         hint: ''
     }
 };
@@ -156,7 +156,7 @@ export function startLockGate({ onUnlocked, onComplete, onMatch, onHold, prefers
             return;
         }
 
-        startScanHum('print');
+        startScanHum();
         midTimer = window.setTimeout(() => {
             if (phase === 'scanning') {
                 applyCopy(gate, titleEl, statusEl, hintEl, 'scanningDeep');

@@ -44,7 +44,7 @@ export function stopScanHum() {
     scanHum = null;
 }
 
-export function startScanHum(kind = 'print') {
+export function startScanHum() {
     stopScanHum();
     const context = getContext();
     if (!context) return;
@@ -55,7 +55,7 @@ export function startScanHum(kind = 'print') {
 
     const hum = context.createOscillator();
     hum.type = 'sine';
-    hum.frequency.value = kind === 'smile' ? 196 : 156;
+    hum.frequency.value = 156;
     const humGain = context.createGain();
     humGain.gain.value = 0.55;
     hum.connect(humGain);
@@ -64,7 +64,7 @@ export function startScanHum(kind = 'print') {
 
     const sweep = context.createOscillator();
     sweep.type = 'triangle';
-    sweep.frequency.value = kind === 'smile' ? 520 : 430;
+    sweep.frequency.value = 430;
     const sweepGain = context.createGain();
     sweepGain.gain.value = 0.0001;
     sweep.connect(sweepGain);
@@ -81,7 +81,7 @@ export function startScanHum(kind = 'print') {
     };
 
     pulse();
-    const tick = window.setInterval(pulse, kind === 'smile' ? 230 : 170);
+    const tick = window.setInterval(pulse, 170);
 
     scanHum = {
         stop() {
@@ -109,8 +109,4 @@ export function playMatch() {
 
 export function playRetry() {
     playTone({ frequency: 196, duration: 0.2, type: 'triangle', gain: 0.045, slide: -70 });
-}
-
-export function playShutter() {
-    playTone({ frequency: 980, duration: 0.07, type: 'square', gain: 0.03, slide: -220 });
 }
